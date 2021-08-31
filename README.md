@@ -2,6 +2,7 @@
 ## Installation
 
 docker-compose must be installed
+make install
 
 ## start
 make start

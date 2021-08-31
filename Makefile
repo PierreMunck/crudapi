@@ -1,3 +1,5 @@
+install:
+	cd ./app && npm i
 start:
 	docker-compose up -d
 	docker-compose start

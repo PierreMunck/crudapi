@@ -9,10 +9,10 @@ exports.create = (req, res) => {
       }
 
       const sighting = new Sighting({
-        lat = req.body.lat,
-        lng = req.body.lng,
-        time = req.body.time,
-        description = req.body.description
+        lat: req.body.lat,
+        lng:  req.body.lng,
+        time:  req.body.time,
+        description:  req.body.description
       });
 
       Sighting.create(sighting, (err, data) => {
