@@ -2,13 +2,18 @@
 ## Installation
 
 docker-compose must be installed
+[install insomnia](https://insomnia.rest/download)
 make install
+
 
 ## start
 make start
 
 ## stop
 make stop
+
+## test Api
+import [insomnia.json](./insomnia.json) into insomnia software
 
 # Challenge
 

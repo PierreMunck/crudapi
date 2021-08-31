@@ -1,6 +1,5 @@
 const Sighting = require("../models/sighting.model.js");
 
-// Create and Save a new Customer
 exports.create = (req, res) => {
     if (!req.body) {
         res.status(400).send({
@@ -25,7 +24,6 @@ exports.create = (req, res) => {
       });
 };
 
-// Retrieve all Customers from the database.
 exports.findAll = (req, res) => {
     Sighting.getAll((err, data) => {
         if (err)
@@ -37,17 +35,61 @@ exports.findAll = (req, res) => {
       });
 };
 
-// Find a single Customer with a customerId
 exports.findOne = (req, res) => {
-  
+  Sighting.findById(req.params.sightingId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Sighting with id ${req.params.sightingId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Sighting with id " + req.params.sightingId
+        });
+      }
+    } else res.send(data);
+  });
 };
 
-// Update a Customer identified by the customerId in the request
 exports.update = (req, res) => {
-  
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+
+  Sighting.updateById(
+    req.params.sightingId,
+    new Sighting(req.body),
+    (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found Sighting with id ${req.params.sightingId}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error updating Sighting with id " + req.params.sightingId
+          });
+        }
+      } else res.send(data);
+    }
+  );
 };
 
-// Delete a Customer with the specified customerId in the request
 exports.delete = (req, res) => {
-  
+  Sighting.remove(req.params.sightingId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Sighting with id ${req.params.sightingId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Could not delete Sighting with id " + req.params.sightingId
+        });
+      }
+    } else res.send({ message: `Sighting was deleted successfully!` });
+  });
 };

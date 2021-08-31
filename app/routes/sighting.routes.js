@@ -4,15 +4,15 @@ module.exports = app => {
     // Create a new Sighting
     app.post("/sightings", sighting.create);
   
-    // Retrieve all Customers
+    // Retrieve all Sightings
     app.get("/sightings", sighting.findAll);
   
-    // Retrieve a single Customer with customerId
+    // Retrieve a single Sighting with sightingId
     app.get("/sighting/:sightingId", sighting.findOne);
   
-    // Update a Customer with customerId
+    // Update a Sighting with sightingId
     app.put("/sighting/:sightingId", sighting.update);
   
-    // Delete a Customer with customerId
+    // Delete a Sighting with sightingId
     app.delete("/sighting/:sightingId", sighting.delete);
   };

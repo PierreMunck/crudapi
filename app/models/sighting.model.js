@@ -20,6 +20,25 @@ Sighting.create = (newSighting, result) => {
     });
   };
 
+Sighting.findById = (sightingId, result) => {
+    sql.query(`SELECT * FROM sightings WHERE id = ${sightingId}`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+  
+      if (res.length) {
+        console.log("found sighting: ", res[0]);
+        result(null, res[0]);
+        return;
+      }
+  
+      // not found Sighting with the id
+      result({ kind: "not_found" }, null);
+    });
+  };
+
 Sighting.getAll = result => {
     sql.query("SELECT * FROM sightings", (err, res) => {
       if (err) {
@@ -42,7 +61,7 @@ Sighting.remove = (id, result) => {
       }
   
       if (res.affectedRows == 0) {
-        // not found Customer with the id
+        // not found Sighting with the id
         result({ kind: "not_found" }, null);
         return;
       }
