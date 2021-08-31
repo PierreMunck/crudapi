@@ -5,10 +5,12 @@ const Sighting = function(sighting) {
     this.lng = sighting.lng;
     this.time = sighting.time;
     this.description = sighting.description;
+    this.tags = sighting.tags;
 };
 
 Sighting.create = (newSighting, result) => {
-    sql.query("INSERT INTO sightings SET ?", newSighting, (err, res) => {
+    const {tags, ...sqlObj} = newSighting;
+    sql.query("INSERT INTO sightings SET ?", sqlObj, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);

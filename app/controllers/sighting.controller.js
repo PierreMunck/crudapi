@@ -1,4 +1,5 @@
 const Sighting = require("../models/sighting.model.js");
+const Tag = require("../models/tag.model.js");
 
 exports.create = (req, res) => {
     if (!req.body) {
@@ -11,7 +12,8 @@ exports.create = (req, res) => {
         lat: req.body.lat,
         lng:  req.body.lng,
         time:  req.body.time,
-        description:  req.body.description
+        description:  req.body.description,
+        tags: req.body.tag.split(',')
       });
 
       Sighting.create(sighting, (err, data) => {
@@ -20,9 +22,43 @@ exports.create = (req, res) => {
             message:
               err.message || "Some error occurred while creating the Sighting."
           });
-        else res.send(data);
+        else {
+          let TagList = sighting.tags;
+          if(sighting.tags){
+            TagList = addTagList(sighting.tags,data.id);
+          }
+          const {tags, ...resdata} = data;
+          res.send({...resdata, ...TagList});
+        }
       });
 };
+
+addTagList = (TagNames,sightingId ) =>{
+  return {tags: TagNames.map( tagName => {
+    Tag.findByName(tagName,(err, data) => {
+      if (err) {
+        if(err.kind && err.kind == 'not_found'){
+          console.log(tagName);
+          const newTag = new Tag({
+            name: tagName
+          });
+          Tag.create(newTag,(err, data) => {
+            if (err)
+             console.log(err.message);
+            else return data;
+          });
+          return createdTag;
+        }
+        console.log(err.message);
+        return null;
+      }
+      else {    
+        return data
+      };
+    });
+  })
+  }
+}
 
 exports.findAll = (req, res) => {
     Sighting.getAll((err, data) => {

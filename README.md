@@ -13,7 +13,7 @@ make start
 make stop
 
 ## test Api
-import [insomnia.json](./insomnia.json) into insomnia software
+import [insomnia.json](./Insomnia.json) into insomnia software
 
 # Challenge
 
